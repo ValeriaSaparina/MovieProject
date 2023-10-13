@@ -11,8 +11,7 @@
     <filter-mapping>
         <filter-name>authFilter</filter-name>
         <servlet-name>auth</servlet-name>
-        <!--        <servlet-name>reg</servlet-name>-->
-        <!--        TODO: add servlet names for auth filters    -->
+        <servlet-name>reg</servlet-name>
     </filter-mapping>
 
 </web-app>

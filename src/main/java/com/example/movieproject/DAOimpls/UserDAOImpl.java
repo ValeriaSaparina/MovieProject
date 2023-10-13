@@ -13,9 +13,11 @@ import java.util.List;
 public class UserDAOImpl implements DAO<User> {
 
     Connection conn;
+
     public UserDAOImpl() throws SQLException {
         conn = JDBCConnection.getConn();
     }
+
     @Override
     public void create(User obj) {
 
@@ -61,5 +63,16 @@ public class UserDAOImpl implements DAO<User> {
     @Override
     public List<User> getAll() {
         return null;
+    }
+
+    public int addNewUser(String username, String password, String name, String surname) throws SQLException {
+            PreparedStatement statement = conn.prepareStatement(
+                    "insert into users (username, password, name, surname) values (?, ?, ?, ?)");
+            statement.setString(1, username);
+            statement.setString(2, password);
+            statement.setString(3, name);
+            statement.setString(4, surname);
+            return statement.executeUpdate();
+
     }
 }
