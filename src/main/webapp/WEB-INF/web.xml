@@ -24,4 +24,12 @@
         <servlet-name>editProfile</servlet-name>
     </filter-mapping>
 
+    <context-param>
+        <description>Location to store uploaded profile photo</description>
+        <param-name>file-upload</param-name>
+        <param-value>
+            D:\ITIS\ОРИС\Семестровки\MovieProject\src\main\webapp\avatars
+        </param-value>
+    </context-param>
+
 </web-app>
