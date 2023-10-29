@@ -16,19 +16,41 @@ public class UserService {
         String rememberMe = req.getParameter("remember-me");
         User user = userDAO.getByUsername(username);
 
+
         if (user != null && user.getPassword().equals(password)) {
-            rememberMe(rememberMe, res, req, user);
+            rememberMe(rememberMe, res, user);
+            Helper.saveToSession(Params.AUTH_SESSION, user, req);
             return true;
         } else {
             return false;
         }
     }
 
-    public void rememberMe(String rememberMe, HttpServletResponse res, HttpServletRequest req, User user) {
-        if (rememberMe != null) {
-            Helper.saveToCookie(Params.REMEMBER_COOKIE, "true", res);
-        } else {
+    public boolean authFromCookie(HttpServletRequest req, String username) {
+        User user = ((UserDAOImpl) req.getServletContext().getAttribute(Params.USER_DAO)).getByUsername(username);
+        if (user != null) {
             Helper.saveToSession(Params.AUTH_SESSION, user, req);
+        }
+        return user != null;
+    }
+
+    public boolean isAuth(HttpServletRequest request) {
+
+        if (request.getSession().getAttribute(Params.AUTH_SESSION) != null) {
+            return true;
+        } else {
+            String username = Helper.checkCookie(request, Params.REMEMBER_COOKIE);
+            if (username != null) {
+                authFromCookie(request, username);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void rememberMe(String rememberMe, HttpServletResponse res, User user) {
+        if (rememberMe != null) {
+            Helper.saveToCookie(Params.REMEMBER_COOKIE, user.getUsername(), res);
         }
     }
 
@@ -41,11 +63,10 @@ public class UserService {
         String password = req.getParameter("password");
         String rememberMe = req.getParameter("remember-me");
 
-
-        int count = userDAO.addNewUser(username, password, name, surname);
-        System.out.println(count);
+        userDAO.addNewUser(username, password, name, surname);
         User user = userDAO.getByUsername(username);
-        rememberMe(rememberMe, res, req, user);
+        Helper.saveToSession(Params.AUTH_SESSION, user, req);
+        rememberMe(rememberMe, res, user);
 
     }
 

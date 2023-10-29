@@ -18,19 +18,18 @@ import java.util.HashMap;
 @WebServlet(name = "auth", value = "/auth")
 public class AuthServlet extends HttpServlet {
 
-    public void init() {
-        ConfigSingleton.setServletContext(this.getServletContext());
-    }
-
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+
         try {
             Template tmpl = ConfigSingleton.getConfig().getTemplate("auth.ftl");
             HashMap<String, Object> root = new HashMap<>();
+            root.put("req", request);
             tmpl.process(root, response.getWriter());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } catch (TemplateException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -38,7 +37,6 @@ public class AuthServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
-            System.out.println("HIIII");
             UserService userService = (UserService) req.getServletContext().getAttribute(Params.USER_SERVICE);
             if (userService.authorization(req, resp)) {
                 Helper.redirect(resp, req, "/");

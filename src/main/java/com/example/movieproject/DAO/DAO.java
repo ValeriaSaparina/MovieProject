@@ -6,7 +6,7 @@ public interface DAO<T> {
     //CRUD
     void create(T obj);
     T get(long id);
-    void update(long id);
+    void update(T entity);
     List<T> getAll();
 
 }

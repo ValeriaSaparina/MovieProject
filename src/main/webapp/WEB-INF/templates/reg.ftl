@@ -68,18 +68,28 @@
     </style>
 </head>
 <body class="text-center">
-<form class="form-signin" method="post">
-    <h1 class="h3 mb-3 font-weight-normal">Registration</h1>
-    <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" autofocus="">
-    <input type="text" name="name" id="inputName" class="form-control" placeholder="Name" autofocus="">
-    <input type="text" name="surname" id="inputSurname" class="form-control" placeholder="Surname" autofocus="">
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="remember-me" value="on"> Remember me
-        </label>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block form-control" type="submit">Sign in</button>
-</form>
+<div class="form-signin">
+    <form method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" autofocus="">
+        <input type="text" name="name" id="inputName" class="form-control" placeholder="Name" autofocus="">
+        <input type="text" name="surname" id="inputSurname" class="form-control" placeholder="Surname" autofocus="">
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="remember-me" value="on"> Запомнить меня
+            </label>
+        </div>
+        <input class="btn btn-lg btn-primary btn-block form-control" type="submit" value="Sign in">
+
+
+    </form>
+
+    <a href="${req.getContextPath()}/auth">
+        Войти
+<#--        <input class="btn btn-lg btn-primary btn-block form-control" type="submit" value="Вход">-->
+    </a>
+</div>
+
 </body>
 </html>

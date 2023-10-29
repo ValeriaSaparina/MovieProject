@@ -16,6 +16,7 @@ public class ConfigSingleton {
     public static Configuration getConfig() {
         if (cfg == null) {
             cfg = new Configuration(Configuration.VERSION_2_3_32);
+            cfg.setDefaultEncoding("UTF-8");
             cfg.setServletContextForTemplateLoading(sc, "/WEB-INF/templates/");
         }
         return cfg;

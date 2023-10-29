@@ -5,13 +5,23 @@
          version="4.0">
 
     <filter>
+        <filter-name>isNotAuthFilter</filter-name>
+        <filter-class>com.example.movieproject.Filters.IsNotAuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>isNotAuthFilter</filter-name>
+        <servlet-name>auth</servlet-name>
+        <servlet-name>reg</servlet-name>
+    </filter-mapping>
+
+    <filter>
         <filter-name>authFilter</filter-name>
         <filter-class>com.example.movieproject.Filters.AuthFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>authFilter</filter-name>
-        <servlet-name>auth</servlet-name>
-        <servlet-name>reg</servlet-name>
+        <servlet-name>profile</servlet-name>
+        <servlet-name>editProfile</servlet-name>
     </filter-mapping>
 
 </web-app>

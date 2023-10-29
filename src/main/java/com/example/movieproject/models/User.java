@@ -1,38 +1,51 @@
 package com.example.movieproject.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class User extends Person {
 
 
-    private String login;
+    private String username;
     private String password;
+
+    private String bio;
 
     private ArrayList<String> favoriteGenres; //TODO: ArrayList<Genres>
 
-    public User(long id, String login, String password, String name, String surname,
-                String gender, String pathPhoto, ArrayList<String> favoriteGenres) {
+    public User(long id, String username, String password, String name, String surname,
+                Date dateOfBirth, String gender, String pathPhoto, String bio) {
         this.id = id;
-        this.login = login;
+        this.username = username;
         this.password = password;
-        this.name = name;
-        this.surname = surname;
+        this.firstname = name;
+        this.lastname = surname;
         this.gender = gender;
-        this.pathPhoto = pathPhoto;
-        this.favoriteGenres = favoriteGenres;
+        this.photoPath = pathPhoto;
+        this.bio = bio;
+//        this.favoriteGenres = favoriteGenres;
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public User(String login, String password) {
-        this.login = login;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public String getLogin() {
-        return login;
+    public User(long id, String username, String password, String name, String surname) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstname = name;
+        this.lastname = surname;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -49,5 +62,13 @@ public class User extends Person {
 
     public void setFavoriteGenres(ArrayList<String> favoriteGenres) {
         this.favoriteGenres = favoriteGenres;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

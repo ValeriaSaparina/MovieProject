@@ -11,15 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AuthFilter extends HttpFilter {
+public class IsNotAuthFilter extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         UserService userService = (UserService) req.getServletContext().getAttribute(Params.USER_SERVICE);
-        if (userService.isAuth(req)) {
+        if (!userService.isAuth(req)) {
             chain.doFilter(req, res);
         } else {
-            Helper.redirect(res, req, "/auth");
+            Helper.redirect(res, req, "/");
         }
 
     }

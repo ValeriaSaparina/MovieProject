@@ -45,6 +45,7 @@
             box-sizing: border-box;
             height: auto;
             padding: 10px;
+            margin-top: 10px;
             font-size: 16px;
         }
 
@@ -67,18 +68,23 @@
     </style>
 </head>
 <body class="text-center">
-<form class="form-signin" method="post">
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" autofocus="">
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" >
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="remember-me" value="on"> Remember me
-        </label>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block form-control" type="submit">Sign in</button>
-</form>
+<div class="form-signin">
+    <form method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
+        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" autofocus="">
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="remember-me" value="on"> Запомнить меня
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block form-control" type="submit">Войти</button>
+    </form>
 
-
+    <a href="${req.getContextPath()}/registration">
+        Регистрация
+<#--        <input class="btn btn-lg btn-primary btn-block form-control" type="submit" value="Регистрация">-->
+    </a>
+</div>
 </body>
 </html>

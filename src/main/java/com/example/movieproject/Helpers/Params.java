@@ -8,6 +8,8 @@ public class Params {
     public static final String PASSWORD = "20112003";
 
     public static final String USER_DAO = "userDao";
+    public static final String MOVIE_DAO = "movieDao";
     public static final String USER_SERVICE = "userService";
 
+    public static final String ENCODING = "UTF-8";
 }
