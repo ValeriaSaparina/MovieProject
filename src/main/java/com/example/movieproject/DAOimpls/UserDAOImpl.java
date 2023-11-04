@@ -43,8 +43,7 @@ public class UserDAOImpl implements DAO<User> {
             statement.setLong(1, id);
             ResultSet res = statement.executeQuery();
             if (res.next()) {
-                User u = new User(res.getString(2), res.getString(3));
-                return u;
+                return UserMapping.getUser(res);
             } else {
                 return null;
             }
@@ -102,7 +101,7 @@ public class UserDAOImpl implements DAO<User> {
         return users;
     }
 
-    public int addNewUser(String username, String password, String firstname, String lastname) throws SQLException {
+    public void addNewUser(String username, String password, String firstname, String lastname) throws SQLException {
         PreparedStatement statement = conn.prepareStatement(
                 "insert into users (username, password, firstname, lastname) values (?, ?, ?, ?)");
         statement.setString(1, username);
@@ -110,7 +109,7 @@ public class UserDAOImpl implements DAO<User> {
         statement.setString(3, firstname);
         statement.setString(4, lastname);
 
-        return statement.executeUpdate();
+        statement.executeUpdate();
 
     }
 }
