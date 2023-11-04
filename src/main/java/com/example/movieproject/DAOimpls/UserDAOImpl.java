@@ -2,6 +2,7 @@ package com.example.movieproject.DAOimpls;
 
 import com.example.movieproject.Connections.JDBCConnection;
 import com.example.movieproject.DAO.DAO;
+import com.example.movieproject.mappings.UserMapping;
 import com.example.movieproject.models.User;
 
 import java.sql.Connection;
@@ -13,15 +14,26 @@ import java.util.List;
 
 public class UserDAOImpl implements DAO<User> {
 
-    Connection conn;
+    private Connection conn;
 
     public UserDAOImpl() throws SQLException {
         conn = JDBCConnection.getConn();
     }
 
     @Override
-    public void create(User obj) {
+    public void create(User user) {
+        try {
+            PreparedStatement statement = conn.prepareStatement(
+                    "insert into users (username, password, firstname, lastname) values (?, ?, ?, ?)");
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getFirstname());
+            statement.setString(4, user.getLastname());
 
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -47,10 +59,7 @@ public class UserDAOImpl implements DAO<User> {
             statement.setString(1, username);
             ResultSet res = statement.executeQuery();
             if (res.next()) {
-                return new User(res.getLong("id"), res.getString("username"), res.getString("password"),
-                        res.getString("firstname"), res.getString("lastname"),
-                        res.getDate("dateofbirth"), res.getString("gender"),
-                        res.getString("photopath"), res.getString("bio"));
+                return UserMapping.getUser(res);
             } else {
                 return null;
             }
@@ -84,8 +93,8 @@ public class UserDAOImpl implements DAO<User> {
         try {
             PreparedStatement statement = conn.prepareStatement("select * from users");
             ResultSet res = statement.executeQuery();
-            if (res.next()) {
-                users.add(new User(res.getLong("id"), res.getString("username"), res.getString("password"), res.getString("firstname"), res.getString("lastname")));
+            while (res.next()) {
+                users.add(UserMapping.getUser(res));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
