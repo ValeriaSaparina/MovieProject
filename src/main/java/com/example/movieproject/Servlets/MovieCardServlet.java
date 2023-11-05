@@ -29,8 +29,6 @@ public class MovieCardServlet extends HttpServlet {
         String idStr = req.getParameter("MovieId");
         int id = Integer.parseInt(idStr);
 
-        //TODO: норм айдишник сделай (сначасла надо добавить общий список киношек
-
         List<Movie> movies = movieDAO.getAll();
 
         movie = movieDAO.get(id);
