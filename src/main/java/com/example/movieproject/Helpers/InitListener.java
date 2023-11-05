@@ -2,6 +2,7 @@ package com.example.movieproject.Helpers;
 
 import com.example.movieproject.Connections.ConfigSingleton;
 import com.example.movieproject.DAOimpls.MovieDAOImpl;
+import com.example.movieproject.DAOimpls.ReviewDAOImpl;
 import com.example.movieproject.DAOimpls.UserDAOImpl;
 
 import javax.servlet.ServletContextEvent;
@@ -23,6 +24,7 @@ public class InitListener implements ServletContextListener {
 
             sce.getServletContext().setAttribute(Params.USER_DAO, new UserDAOImpl());
             sce.getServletContext().setAttribute(Params.MOVIE_DAO, new MovieDAOImpl());
+            sce.getServletContext().setAttribute(Params.REVIEW_DAO, new ReviewDAOImpl());
 
             sce.getServletContext().setAttribute(Params.USER_SERVICE, new UserService());
             //TODO: add Helper to context

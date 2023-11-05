@@ -12,4 +12,5 @@ public class Params {
     public static final String USER_SERVICE = "userService";
 
     public static final String ENCODING = "UTF-8";
+    public static final String REVIEW_DAO = "reviewDao";
 }
