@@ -1,18 +1,28 @@
-package com.example.movieproject.Helpers;
+package com.example.movieproject.Helpers.services;
 
 import com.example.movieproject.DAOimpls.UserDAOImpl;
+import com.example.movieproject.Helpers.Helper;
+import com.example.movieproject.Helpers.Params;
 import com.example.movieproject.models.User;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 public class UserService {
 
+    private ServletContext context;
+    private UserDAOImpl userDAO;
+
+    public UserService(ServletContext context) {
+        this.context = context;
+        userDAO = (UserDAOImpl) context.getAttribute(Params.USER_DAO);
+    }
+
     public boolean authorization(HttpServletRequest req, HttpServletResponse res) throws SQLException {
-        UserDAOImpl userDAO = (UserDAOImpl) req.getServletContext().getAttribute(Params.USER_DAO);
         String username = req.getParameter("username");
-        String password = req.getParameter("password");
+        String password = Helper.hashing(req.getParameter("password"));
         String rememberMe = req.getParameter("remember-me");
         User user = userDAO.getByUsername(username);
 
@@ -26,8 +36,8 @@ public class UserService {
         }
     }
 
-    public boolean authFromCookie(HttpServletRequest req, String username) {
-        User user = ((UserDAOImpl) req.getServletContext().getAttribute(Params.USER_DAO)).getByUsername(username);
+    public boolean authFromCookie(HttpServletRequest req) {
+        User user = userDAO.getByUsername(Helper.checkCookie(req, Params.REMEMBER_COOKIE));
         if (user != null) {
             Helper.saveToSession(Params.AUTH_SESSION, user, req);
         }
@@ -38,14 +48,8 @@ public class UserService {
 
         if (request.getSession().getAttribute(Params.AUTH_SESSION) != null) {
             return true;
-        } else {
-            String username = Helper.checkCookie(request, Params.REMEMBER_COOKIE);
-            if (username != null) {
-                authFromCookie(request, username);
-                return true;
-            }
         }
-        return false;
+        return (authFromCookie(request));
     }
 
     public void rememberMe(String rememberMe, HttpServletResponse res, User user) {
@@ -55,15 +59,17 @@ public class UserService {
     }
 
     public void registration(HttpServletRequest req, HttpServletResponse res) throws SQLException {
-        UserDAOImpl userDAO = (UserDAOImpl) req.getServletContext().getAttribute(Params.USER_DAO);
 
         String username = req.getParameter("username");
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
-        String password = req.getParameter("password");
+        String password = Helper.hashing(req.getParameter("password"));
         String rememberMe = req.getParameter("remember-me");
+        String photoPath = "/avatars/img.png";
 
-        userDAO.addNewUser(username, password, name, surname);
+        User u = new User(username, name, surname, password);
+        u.setPhotoPath(photoPath);
+        userDAO.addNewUser(username, password, name, surname, photoPath);
         User user = userDAO.getByUsername(username);
         Helper.saveToSession(Params.AUTH_SESSION, user, req);
         rememberMe(rememberMe, res, user);

@@ -9,6 +9,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 
 public class Helper {
@@ -39,13 +44,16 @@ public class Helper {
 
     public static void saveToSession(String auth, User user, HttpServletRequest req) {
         req.getSession().setAttribute(auth, user);
-        System.out.println("saveToSession: " + req.getSession().getAttribute(auth));
     }
 
-    public static void templateFtl(String template, HashMap<String, Object> root, HttpServletResponse resp) {
+    public static void templateFtl(String template, HashMap<String, Object> root, HttpServletResponse resp, HttpServletRequest req) {
         //TODO: rename it, pls
         try {
             Template tmpl = ConfigSingleton.getConfig().getTemplate(template);
+
+            root.put("path", req.getContextPath());
+            root.put("isAuth", isAuth(req));
+
             tmpl.process(root, resp.getWriter());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -53,4 +61,17 @@ public class Helper {
             throw new RuntimeException(e);
         }
     }
+
+    public static String hashing(String str) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance(Params.ALGORITHM);
+            str += Params.SALT;
+            byte[] digest = messageDigest.digest(str.getBytes());
+            String res = Base64.getEncoder().encodeToString(digest);
+            return res;
+        } catch (NoSuchAlgorithmException e) {
+            return str;
+        }
+    }
+
 }
