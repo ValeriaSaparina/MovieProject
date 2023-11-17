@@ -17,7 +17,7 @@
                          alt="Movie Poster" style="width: 300px; height: 300px;">
                     <div class="card-body">
                         <h5 class="card-title">${movie.localName}
-                            <#if isAuth><button onclick="like(${movie.id})" type="button" id="like-button${movie.id}"
+                            <#if user??><button onclick="like(${movie.id})" type="button" id="like-button${movie.id}"
                                     class="btn btn-link like-button"
                                     data-favorite="${(favorites?seq_contains(movie))?c}"
                                     data-movie-id="${movie.id}">

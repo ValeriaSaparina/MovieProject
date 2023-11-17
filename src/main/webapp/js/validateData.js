@@ -49,7 +49,7 @@ function validateData(input, errorInput, regex) {
 
     var minS = 6;
     var maxS = 20;
-    var message = "Может содержать только A-Z a-z _ ."
+    var message = "Может содержать только A-Z a-z _"
 
     if (input.id === 'inputSurname' || input.id === 'inputName') {
         minS = 2;

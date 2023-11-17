@@ -7,6 +7,7 @@ import com.example.movieproject.Helpers.Helper;
 import com.example.movieproject.Helpers.Params;
 import com.example.movieproject.Helpers.services.MovieService;
 import com.example.movieproject.models.FavoriteMovie;
+import com.example.movieproject.models.Movie;
 import com.example.movieproject.models.User;
 
 import javax.servlet.annotation.WebServlet;
@@ -29,9 +30,9 @@ public class MovieCardServlet extends HttpServlet {
         MovieService movieService = (MovieService) req.getServletContext().getAttribute(Params.MOVIE_SERVICE);
 
         User user = (User) req.getSession().getAttribute(Params.AUTH_SESSION);
-        List<FavoriteMovie> favorites = new ArrayList<>();
+        List<Movie> favorites = new ArrayList<>();
         if (user != null) {
-            movieService.getFavoriteMovies(user.getId());
+            favorites = movieService.getFavoriteMovies(user.getId());
         }
 
         int id = Integer.parseInt(req.getParameter("MovieId"));
@@ -39,7 +40,7 @@ public class MovieCardServlet extends HttpServlet {
         HashMap<String, Object> root = new HashMap<>();
         root.put("movie", movieDAO.get(id));
         root.put("reviews", reviewDAO.getByMovieID(id));
-        if (user != null) root.put("favorites", favorites);
+        root.put("favorites", favorites);
         root.put("user", user);
 
 

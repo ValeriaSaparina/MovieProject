@@ -11,7 +11,7 @@ public class User extends Person {
 
     private String bio;
 
-    private ArrayList<String> favoriteGenres; //TODO: ArrayList<Genres>
+    private ArrayList<String> favoriteGenres;
 
     public User(long id, String username, String password, String name, String surname,
                 Date dateOfBirth, String gender, String pathPhoto, String bio) {

@@ -47,7 +47,6 @@ public class Helper {
     }
 
     public static void templateFtl(String template, HashMap<String, Object> root, HttpServletResponse resp, HttpServletRequest req) {
-        //TODO: rename it, pls
         try {
             Template tmpl = ConfigSingleton.getConfig().getTemplate(template);
 

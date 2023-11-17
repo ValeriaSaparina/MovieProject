@@ -8,7 +8,7 @@ function search() {
                 if (msg.objects.length > 0) {
                     $("#searchResult").html("");
                     for (var i = 0; i < msg.objects.length; i++) {
-                        $("#searchResult").append("<li><a class=\"dropdown-item\" style=\"white-space: pre-wrap\" href=\"/moviecard?MovieId=" + msg.objects[i].id + "\">" + msg.objects[i].localName + "</a></li>");
+                        $("#searchResult").append("<li><a class=\"dropdown-item\" style=\"white-space: pre-wrap\" href=\"" + msg.path +"/moviecard?MovieId=" + msg.objects[i].id + "\">" + msg.objects[i].localName + "</a></li>");
                     }
                 } else {
                     $("#searchResult").html("");
