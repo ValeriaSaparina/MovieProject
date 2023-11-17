@@ -1,11 +1,8 @@
 package com.example.movieproject.Servlets;
 
-import com.example.movieproject.Connections.ConfigSingleton;
 import com.example.movieproject.Helpers.Helper;
 import com.example.movieproject.Helpers.Params;
-import com.example.movieproject.Helpers.UserService;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import com.example.movieproject.Helpers.services.UserService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,28 +17,18 @@ public class AuthServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
 
-        try {
-            Template tmpl = ConfigSingleton.getConfig().getTemplate("auth.ftl");
-            HashMap<String, Object> root = new HashMap<>();
-            root.put("req", request);
-            tmpl.process(root, response.getWriter());
-        } catch (TemplateException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        HashMap<String, Object> root = new HashMap<>();
+        Helper.templateFtl("auth.ftl", root, response, request);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        UserService userService = (UserService) req.getServletContext().getAttribute(Params.USER_SERVICE);
         try {
-            UserService userService = (UserService) req.getServletContext().getAttribute(Params.USER_SERVICE);
             if (userService.authorization(req, resp)) {
                 Helper.redirect(resp, req, "/");
             } else {
-                // TODO: implementation of notifications
                 Helper.redirect(resp, req, "/auth");
             }
         } catch (SQLException e) {
@@ -49,6 +36,4 @@ public class AuthServlet extends HttpServlet {
         }
     }
 
-    public void destroy() {
-    }
 }

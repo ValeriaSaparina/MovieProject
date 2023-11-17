@@ -2,7 +2,7 @@ package com.example.movieproject.Filters;
 
 import com.example.movieproject.Helpers.Helper;
 import com.example.movieproject.Helpers.Params;
-import com.example.movieproject.Helpers.UserService;
+import com.example.movieproject.Helpers.services.UserService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
