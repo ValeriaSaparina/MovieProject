@@ -1,103 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<#include "macro/base.ftl">
+
+<#macro page_head>
     <title>Movie Page</title>
-    <style>
-        .card {
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
+    <#include "macro/baseLinks.ftl">
+    <link href="${path}/css/card.css" rel="stylesheet">
+    <script src="${path}/js/ajaxAddReviews.js" type="application/javascript"></script>
+    <script src="${path}/js/ajaxActionLike.js" type="application/javascript"></script>
+</#macro>
 
-<script>
+<#macro content>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <img src="${movie.posterPath}" style="max-height: 400px; object-fit: cover" class="card-img-top"
+                         alt="Movie Poster" style="width: 300px; height: 300px;">
+                    <div class="card-body">
+                        <h5 class="card-title">${movie.localName}
+                            <#if isAuth><button onclick="like(${movie.id})" type="button" id="like-button${movie.id}"
+                                    class="btn btn-link like-button"
+                                    data-favorite="${(favorites?seq_contains(movie))?c}"
+                                    data-movie-id="${movie.id}">
+                                <i class="fas fa-heart text-<#if favorites?seq_contains(movie)>danger<#else>secondary</#if>"></i>
+                            </button>
+                            </#if>
+                        </h5>
+                        <p class="card-text">${movie.description}</p>
 
-    function add() {
-        var reviewText = $("#reviewTextInput").val();
-        var reviewTitle = $("#reviewTitleInput").val();
-        var reviewType = $("#reviewTypeInput").val();
+                        <h6 class="card-subtitle mb-2 text-muted">Rating: ${movie.rating}</h6>
+                        <hr>
 
-        $.ajax({
-            url: "addReview",
-            type: "POST",
-            data: {text: reviewText, title: reviewTitle, type: reviewType},
-            dataType: "json",
-            success: function (response) {
-                if (response.success) {
-                    $("#reviewTitleInput").val("");
-                    $("#reviewTypeInput").val(1);
-                    $("#reviewTextInput").val("");
-                    $("#reviewAjax").append("<div class=\"card\"> <div class=\"card-body\"> <p class=\"card-text\">" + reviewTitle + "</p>" +
-                        "<p class=\"card-text\">" + reviewText + "</p></div></div>");
-                }
-            }
-        });
-    }
+                        <#if user??>
 
-</script>
+                            <h6 class="card-subtitle mb-2 text-muted">Leave a Review:</h6>
 
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <img src="${req.getContextPath()}/avatars/test.jpg" class="card-img-top"
-                     alt="Movie Poster" style="width: 300px; height: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">${movie.localName}</h5>
-                    <p class="card-text">${movie.description}</p>
-                    <h6 class="card-subtitle mb-2 text-muted">Rating: ${movie.rating}</h6>
-                    <hr>
-                    <h6 class="card-subtitle mb-2 text-muted">Leave a Review:</h6>
-
-                    <div class="mb-3">
-                        <select class="form-control" id="reviewTypeInput" name="type">
-                            <option value="1">
-                                Positive
-                            </option>
-                            <option value="0">
-                                Neutral
-                            </option>
-                            <option value="2">
-                                Negative
-                            </option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <input class="form-control" id="reviewTitleInput" name="title" placeholder="Title">
-                    </div>
-                    <div class="mb-3">
+                            <div class="mb-3">
+                                <select class="form-control" id="reviewTypeInput" name="type">
+                                    <option value="1">
+                                        Positive
+                                    </option>
+                                    <option value="0">
+                                        Neutral
+                                    </option>
+                                    <option value="2">
+                                        Negative
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" id="reviewTitleInput" name="title" placeholder="Title">
+                            </div>
+                            <div class="mb-3">
                             <textarea class="form-control" id="reviewTextInput" name="text" rows="3"
                                       placeholder="Write your review here"></textarea>
-                    </div>
-                    <input type="submit" onclick="add()" id="submitReviewBtn" class="btn btn-primary"
-                           value="Submit Review">
-
-                    <hr>
-                    <h6 class="card-subtitle mb-2 text-muted">All Reviews:</h6>
-                    <#list reviews as review>
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="card-text">${review.title}</p>
-                                <p class="card-text">${review.text}</p>
                             </div>
-                        </div>
-                    </#list>
-                    <div id="reviewAjax">
+                            <input type="submit" onclick="add()" id="submitReviewBtn" class="btn btn-primary"
+                                   value="Submit Review">
 
+                        <#else>
+                            <p><a href="${path}/auth">Войдите</a>, чтобы оставить отзыв</p>
+                        </#if>
+
+                        <hr>
+                        <h6 class="card-subtitle mb-2 text-muted">All Reviews:</h6>
+                        <#list reviews as review>
+                            <div class="card"
+                                 style="background-color: <#if review.type == "1">#98FB98<#elseif review.type == "2">#FFE4E1</#if>">
+                                <div class="card-body">
+                                    <h6 class="card-text">${review.title}</h6>
+                                    <hr>
+                                    <p class="card-text">${review.text}</p>
+                                </div>
+                            </div>
+                        </#list>
+                        <div id="reviewAjax">
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</body>
-</html>
+</#macro>
+<@display_page/>

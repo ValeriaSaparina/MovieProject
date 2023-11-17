@@ -5,6 +5,25 @@
          version="4.0">
 
     <filter>
+        <filter-name>authFilter</filter-name>
+        <filter-class>com.example.movieproject.Filters.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
+
+        <servlet-name>mainPage</servlet-name>
+        <servlet-name>allMovies</servlet-name>
+        <servlet-name>profile</servlet-name>
+        <servlet-name>editProfile</servlet-name>
+        <servlet-name>reg</servlet-name>
+        <servlet-name>auth</servlet-name>
+        <servlet-name>movieCard</servlet-name>
+        <servlet-name>favoriteMovies</servlet-name>
+        <servlet-name>allAwards</servlet-name>
+
+    </filter-mapping>
+
+    <filter>
         <filter-name>isNotAuthFilter</filter-name>
         <filter-class>com.example.movieproject.Filters.IsNotAuthFilter</filter-class>
     </filter>
@@ -15,21 +34,21 @@
     </filter-mapping>
 
     <filter>
-        <filter-name>authFilter</filter-name>
-        <filter-class>com.example.movieproject.Filters.AuthFilter</filter-class>
+        <filter-name>isAuthFilter</filter-name>
+        <filter-class>com.example.movieproject.Filters.IsAuthFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>authFilter</filter-name>
+        <filter-name>isAuthFilter</filter-name>
         <servlet-name>profile</servlet-name>
         <servlet-name>editProfile</servlet-name>
     </filter-mapping>
 
-    <context-param>
-        <description>Location to store uploaded profile photo</description>
-        <param-name>file-upload</param-name>
-        <param-value>
-            D:\ITIS\ОРИС\Семестровки\MovieProject\src\main\webapp\avatars
-        </param-value>
-    </context-param>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.jpg</url-pattern>
+        <url-pattern>*.png</url-pattern>
+    </servlet-mapping>
 
 </web-app>

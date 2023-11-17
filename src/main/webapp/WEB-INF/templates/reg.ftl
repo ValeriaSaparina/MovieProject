@@ -1,95 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
+<#include "macro/base.ftl">
+<#include "macro/top_movies_macro.ftl">
 
-        body {
-            display: -ms-flexbox;
-            display: -webkit-box;
-            display: flex;
-            -ms-flex-align: center;
-            -ms-flex-pack: center;
-            -webkit-box-align: center;
-            align-items: center;
-            -webkit-box-pack: center;
-            justify-content: center;
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
-        }
+<#macro page_head>
+    <title>Регистрация</title>
+    <#include "macro/baseLinks.ftl">
+    <link href="${path}/css/reg.css" rel="stylesheet">
+    <script src="${path}/js/validateData.js" type="application/javascript"></script>
+    <script src="${path}/js/ajaxIsUniqueUsername.js" type="application/javascript"></script>
+</#macro>
 
-        .form-signin {
-            width: 100%;
-            max-width: 330px;
-            padding: 15px;
-            margin: 0 auto;
-        }
-
-        .form-signin .checkbox {
-            font-weight: 400;
-        }
-
-        .form-signin .form-control {
-            position: relative;
-            box-sizing: border-box;
-            height: auto;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .form-signin .form-control:focus {
-            z-index: 2;
-        }
-
-        .form-signin input[type="email"] {
-            margin-bottom: -1px;
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        .form-signin input[type="password"] {
-            margin-bottom: 10px;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-
-    </style>
-</head>
-<body class="text-center">
-<div class="form-signin">
-    <form method="post">
-        <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
-        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" autofocus="">
-        <input type="text" name="name" id="inputName" class="form-control" placeholder="Name" autofocus="">
-        <input type="text" name="surname" id="inputSurname" class="form-control" placeholder="Surname" autofocus="">
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="remember-me" value="on"> Запомнить меня
-            </label>
-        </div>
-        <input class="btn btn-lg btn-primary btn-block form-control" type="submit" value="Sign in">
+<#macro content>
+    <div class="form-signin text-center">
+        <form method="post">
+            <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+            <input type="text" name="username" id="inputUsername" class="myInput form-control"
+                   onblur="validateUsername()"
+                   placeholder="Username" autofocus="">
+            <p class="error" id="errorUsername"></p>
+            <input type="text" name="name" id="inputName" class="myInput form-control" onblur="validateFirstname()"
+                   placeholder="Name" autofocus="">
+            <p class="error" id="errorFirstname"></p>
+            <input type="text" name="surname" id="inputSurname" class="myInput form-control" placeholder="Surname"
+                   onblur="validateLastname()" autofocus="">
+            <p class="error" id="errorLastname"></p>
+            <input type="password" name="password" id="inputPassword" class="myInput form-control"
+                   onblur="validatePassword()" placeholder="Password">
+            <p class="error" id="errorPassword"></p>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="remember-me" value="on"> Запомнить меня
+                </label>
+            </div>
+            <input class="btn btn-lg btn-primary btn-block form-control" type="submit" id="submitBtn" disabled
+                   value="Зарегистрироваться">
 
 
-    </form>
+        </form>
 
-    <a href="${req.getContextPath()}/auth">
-        Войти
-<#--        <input class="btn btn-lg btn-primary btn-block form-control" type="submit" value="Вход">-->
-    </a>
-</div>
+        <span>Уже зарегистрированы? <a href="${path}/auth">Войти</a></span>
+    </div>
 
-</body>
-</html>
+</#macro>
+<@display_page/>
