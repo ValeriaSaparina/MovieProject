@@ -60,7 +60,17 @@ public class ReviewDAOImpl implements DAO<Review> {
 
     @Override
     public List<Review> getAll() {
-        return null;
+        List<Review> reviews = new ArrayList<>();
+        try {
+            PreparedStatement statement = conn.prepareStatement("select * from reviews");
+            ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                reviews.add(ReviewMapping.getReview(res));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return reviews;
     }
 
     public List<Review> getByMovieID(int movieID) {

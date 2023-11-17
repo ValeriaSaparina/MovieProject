@@ -62,8 +62,6 @@ public class UserDAOImpl implements DAO<User> {
             } else {
                 return null;
             }
-
-            //TODO: заполни все поля
         } catch (SQLException e) {
             return null;
         }
@@ -72,18 +70,18 @@ public class UserDAOImpl implements DAO<User> {
     @Override
     public void update(User user) {
         try {
-            PreparedStatement statement = conn.prepareStatement("update users set firstname = ?, lastname = ?, gender = ?, bio = ? where username = ?;");
+            PreparedStatement statement = conn.prepareStatement("update users set firstname = ?, lastname = ?, dateofbirth = ?, gender = ?, bio = ?, photopath = ? where username = ?;");
             statement.setString(1, user.getFirstname());
             statement.setString(2, user.getLastname());
-//            statement.setDate(3, (Date) user.getDateOfBirth());
-            statement.setString(3, user.getGender());
-            statement.setString(4, user.getBio());
-            statement.setString(5, user.getUsername());
+            statement.setDate(3, user.getDateOfBirth());
+            statement.setString(4, user.getGender());
+            statement.setString(5, user.getBio());
+            statement.setString(6, user.getPhotoPath());
+            statement.setString(7, user.getUsername());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        //TODO: implements update user (photo, Birthday)
     }
 
     @Override
@@ -101,13 +99,14 @@ public class UserDAOImpl implements DAO<User> {
         return users;
     }
 
-    public void addNewUser(String username, String password, String firstname, String lastname) throws SQLException {
+    public void addNewUser(String username, String password, String firstname, String lastname, String photoPath) throws SQLException {
         PreparedStatement statement = conn.prepareStatement(
-                "insert into users (username, password, firstname, lastname) values (?, ?, ?, ?)");
+                "insert into users (username, password, firstname, lastname, photopath) values (?, ?, ?, ?, ?)");
         statement.setString(1, username);
         statement.setString(2, password);
         statement.setString(3, firstname);
         statement.setString(4, lastname);
+        statement.setString(5, photoPath);
 
         statement.executeUpdate();
 
