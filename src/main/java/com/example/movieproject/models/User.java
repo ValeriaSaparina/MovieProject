@@ -1,7 +1,7 @@
 package com.example.movieproject.models;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class User extends Person {
 
@@ -38,6 +38,13 @@ public class User extends Person {
         this.password = password;
         this.firstname = name;
         this.lastname = surname;
+    }
+
+    public User(String username, String name, String surname, String password) {
+        this.username = username;
+        this.firstname = name;
+        this.lastname = surname;
+        this.password = password;
     }
 
     public String getUsername() {

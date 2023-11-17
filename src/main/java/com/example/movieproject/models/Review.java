@@ -1,6 +1,7 @@
 package com.example.movieproject.models;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 
 public class Review {
     private long reviewID;
